@@ -1,383 +1,114 @@
-#define LEADER    9000, 4500  // 9ms mark + 4.5ms space
-#define B0        560,  560   // 560us mark + 560us space
-#define B1        560,  1690  // 560us mark + 1.69ms space
-#define STOP      560,  0     // 560us mark + stop
-#define REPEAT    9000, 2250  // 9ms mark + 2.25ms space
-
-#define H0    B0, B0, B0, B0  // 0x00
-#define H1    B1, B0, B0, B0  // 0x01
-#define H2    B0, B1, B0, B0  // 0x02
-#define H3    B1, B1, B0, B0  // 0x03
-#define H4    B0, B0, B1, B0  // 0x04
-#define H5    B1, B0, B1, B0  // 0x05
-#define H6    B0, B1, B1, B0  // 0x06
-#define H7    B1, B1, B1, B0  // 0x07
-#define H8    B0, B0, B0, B1  // 0x08
-#define H9    B1, B0, B0, B1  // 0x09
-#define HA    B0, B1, B0, B1  // 0x0A
-#define HB    B1, B1, B0, B1  // 0x0B
-#define HC    B0, B0, B1, B1  // 0x0C
-#define HD    B1, B0, B1, B1  // 0x0D
-#define HE    B0, B1, B1, B1  // 0x0E
-#define HF    B1, B1, B1, B1  // 0x0F
-
-#define APPLE_CUSTOM_CODE     HE, HE, H7, H8  // 0xEE, 0X87
-#define APPLE_REMOTE_ID       H7, HA          // 0XA7
-
-#define APPLE_BUTTON_MENU     H3, H0          // 0x03
-#define APPLE_BUTTON_PLAY     HF, H5          // 0x5F
-#define APPLE_BUTTON_CENTER   HC, H5          // 0x5C
-#define APPLE_BUTTON_UP       HA, H0          // 0x0A
-#define APPLE_BUTTON_LEFT     H9, H0          // 0x09
-#define APPLE_BUTTON_RIGHT    H6, H0          // 0x06
-#define APPLE_BUTTON_DOWN     HC, H0          // 0x0C
-
 /*
-// Original readings
-
-// Menu
-int signal[] = {
-  9032, 4492
-
-  532, 596
-  516, 1700
-  516, 1684
-  552, 1688
-
-  528, 604
-  524, 1692
-  528, 1704
-  516, 1700
-
-  516, 1700
-  536, 1688
-  528, 1688
-  528, 584
-
-  548, 600
-  508, 604
-  532, 596
-  516, 1700
-
-  516, 1700
-  536, 1688
-  528, 600
-  528, 584
-
-  528, 604
-  508, 620
-  516, 596
-  516, 612
-
-  516, 1700
-  516, 1708
-  508, 1708
-  528, 600
-
-  528, 584
-  528, 604
-  532, 1684
-  532, 1716
-
-w520, 0};
-
-// play pause
-int signal[] = {
-  9024, 4512
-
-  512, 608
-  528, 1696
-  524, 1692
-  524, 1712
-
-  508, 616
-  512, 1704
-  532, 1688
-  528, 1696
-
-  524, 1712
-  504, 1712
-  524, 1696
-  528, 592
-
-  528, 592
-  532, 588
-  532, 592
-  528, 1696
-
-  540, 1660
-  540, 1712
-  544, 1676
-  548, 1668
-
-  548, 1672
-  548, 580
-  540, 1676
-  540, 584
-
-  540, 1676
-  548, 1688
-  548, 1668
-  548, 576
-
-  548, 580
-  540, 580
-  540, 1676
-  544, 1692
-
-  548, 0};
-
-// Center
-int signal[] = {
-  9104, 4436
-
-  592, 528
-  592, 1628
-  596, 1620
-  600, 1636
-
-  600, 512
-  608, 1628
-  592, 1624
-  592, 1628
-
-  600, 1616
-  616, 1608
-  600, 1632
-  612, 476
-
-  628, 528
-  592, 528
-  612, 516
-  600, 1620
-
-  596, 524
-  580, 540
-  672, 1548
-  600, 1624
-
-  612, 1608
-  680, 424
-  608, 1644
-  668, 452
-
-  584, 1636
-  616, 1608
-  700, 1520
-  592, 528
-
-  612, 512
-  608, 512
-  600, 1620
-  596, 1656
-
-  580, 0};
-
-// Up
-int signal[] = {
-  9084, 4432
-
-  628, 492
-  616, 1608
-  600, 1636
-  600, 1584
-
-  668, 476
-  592, 1644
-  576, 1644
-  592, 1624
-
-  600, 1620
-  600, 1616
-  620, 1608
-  732, 404
-
-  596, 512
-  608, 512
-  612, 508
-  620, 1600
-
-  616, 504
-  600, 1636
-  584, 520
-  620, 1608
-
-  592, 528
-  680, 440
-  612, 492
-  628, 496
-
-  704, 1548
-  600, 1620
-  600, 1624
-  576, 544
-
-  596, 528
-  592, 528
-  592, 1628
-  596, 1636
-
-  600, 0};
-
-
-// Left
-int signal[] = {
-  9092, 4428
-
-  600, 528
-  600, 1620
-  600, 1620
-  600, 1628
-
-  596, 512
-  612, 1624
-  592, 1632
-  600, 1620
-
-  600, 1624
-  596, 1620
-  600, 1624
-  612, 512
-
-  592, 528
-  592, 528
-  600, 524
-  580, 1644
-
-  596, 1628
-  580, 540
-  600, 528
-  592, 1624
-
-  596, 528
-  592, 492
-  636, 524
-  596, 488
-
-  636, 1616
-  600, 1620
-  600, 1624
-  612, 512
-
-  608, 512
-  612, 508
-  596, 1624
-  616, 1636
-
-  584, 0};
-
-// Right
-int signal[] = {
-  9092, 4428
-
-  600, 528
-  600, 1624
-  600, 1608
-  596, 1628
-
-  612, 508
-  596, 1628
-  600, 1624
-  584, 1640
-
-  600, 1612
-  592, 1632
-  592, 1632
-  608, 512
-
-  600, 524
-  564, 544
-  600, 524
-  616, 1600
-
-  616, 512
-  596, 1632
-  592, 1624
-  596, 528
-
-  600, 524
-  600, 520
-  600, 524
-  596, 492
-
-  636, 1604
-  616, 1612
-  596, 1628
-  612, 512
-
-  600, 520
-  584, 524
-  600, 1624
-  600, 1640
-
-  600, 0};
-
-// Down
-
-int signal[] = {
-  9108, 4416
-
-  608, 512
-  596, 1640
-  592, 1628
-  600, 1616
-
-  600, 524
-  616, 1600
-  600, 1624
-  612, 1624
-
-  576, 1644
-  600, 1620
-  596, 1620
-  600, 520
-
-  600, 528
-  596, 528
-  592, 496
-  624, 1628
-
-  652, 468
-  600, 504
-  616, 1620
-  600, 1620
-
-  616, 504
-  600, 528
-  612, 508
-  596, 528
-
-  608, 1608
-  600, 1636
-  584, 1636
-  580, 544
-
-  584, 520
-  620, 508
-  596, 1608
-  644, 1624
-
-  584, 0};
-
-// Repeat
-
-int signal[] = {
-  9064, 2204
-  612, 0};
-
-// Docs
-
-See:
-* http://techdocs.altium.com/display/ADRR/NEC+Infrared+Transmission+Protocol
-* http://en.wikipedia.org/wiki/Apple_Remote
-
+  Copyright (c) 2014 José Carlos Nieto, https://menteslibres.net/xiam
+
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+  The above copyright notice and this permission notice shall be
+  included in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+// The following include depends on https://github.com/xiam/arduino-irdebug
+#include <apple-remote.h>
 
 void setup()
 {
+  Serial.begin(9600);
+  Serial.println("This library makes a IR LED emit codes used by the Apple Remote.");
 }
 
 void loop()
 {
+
+  // This example uses an Apple TV receiver.
+
+  // Getting to the main menu.
+  Serial.println("Sending signal: menu.");
+  apple_remote_menu();
+  delay(100);
+
+  // Sending repeat code to scalate to the main menu.
+  Serial.println("Sending signal: repeat.");
+  apple_remote_repeat();
+  delay(100);
+  apple_remote_repeat();
+  delay(100);
+  apple_remote_repeat();
+
+  delay(2000);
+
+  // Entering "movies"
+
+  Serial.println("Sending signal: center.");
+  apple_remote_center();
+  delay(2000);
+
+  // Top-paid first movie.
+  Serial.println("Sending signal: down.");
+  apple_remote_down();
+  delay(2000);
+
+  // Selecting movie.
+  Serial.println("Sending signal: center.");
+  apple_remote_center();
+  delay(2000);
+
+  // Lanching preview.
+  Serial.println("Sending signal: play.");
+  apple_remote_play();
+  delay(10000);
+
+  // Pausing preview.
+  Serial.println("Sending signal: play.");
+  apple_remote_play();
+  delay(2000);
+
+  // Resuming preview.
+  Serial.println("Sending signal: play.");
+  apple_remote_play();
+  delay(5000);
+
+  // Ok, going up again.
+  Serial.println("Sending signal: menu.");
+  apple_remote_menu();
+  delay(2000);
+
+  // Moving right, rent ot buy it?
+  Serial.println("Sending signal: right.");
+  apple_remote_right();
+  delay(2000);
+
+  // Nope, just playing.
+  Serial.println("Sending signal: left.");
+  apple_remote_left();
+  delay(2000);
+
+  Serial.println("Sending signal: down.");
+  apple_remote_down();
+  delay(2000);
+
+  Serial.println("Sending signal: up.");
+  apple_remote_up();
+  delay(2000);
+
+  Serial.println("Sending signal: play.");
+  apple_remote_play();
+  delay(10000);
+
+  Serial.println("Waiting a minute.");
+
+  delay(10000);
 }
