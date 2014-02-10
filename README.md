@@ -11,7 +11,6 @@ Emitting signals.
 
 ```c
 #include <apple-remote.h>
-#define SIGNAL_MAX_LENGTH 70
 
 void setup()
 {
@@ -32,6 +31,7 @@ Receiving signals
 
 ```c
 #include <apple-remote.h>
+#define SIGNAL_MAX_LENGTH 70
 
 void setup()
 {
