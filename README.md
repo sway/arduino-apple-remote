@@ -7,8 +7,11 @@ The IR led is expected to be wired to your Arduino's pin #3.
 
 ## Code example
 
+Emitting signals.
+
 ```c
 #include <apple-remote.h>
+#define SIGNAL_MAX_LENGTH 70
 
 void setup()
 {
@@ -22,6 +25,61 @@ void loop()
   Serial.println("Sending signal: menu.");
   apple_remote_menu();
   delay(100000);
+}
+```
+
+Receiving signals
+
+```c
+#include <apple-remote.h>
+
+void setup()
+{
+  Serial.begin(9600);
+  Serial.println("Point your IR led to an AppleTV.");
+}
+
+void loop()
+{
+  unsigned int signal[SIGNAL_MAX_LENGTH];
+  bool captured;
+  int code;
+
+  captured = irdebug_capture_signal(signal, SIGNAL_MAX_LENGTH);
+
+  if (captured) {
+    irdebug_print_signal(signal);
+    code = apple_remote_match(signal);
+
+    switch (code) {
+      case APPLE_REMOTE_MENU:
+        Serial.println("[menu]");
+        break;
+      case APPLE_REMOTE_RIGHT:
+        Serial.println("[right]");
+        break;
+      case APPLE_REMOTE_LEFT:
+        Serial.println("[left]");
+        break;
+      case APPLE_REMOTE_UP:
+        Serial.println("[up]");
+        break;
+      case APPLE_REMOTE_DOWN:
+        Serial.println("[down]");
+        break;
+      case APPLE_REMOTE_PLAY:
+        Serial.println("[play]");
+        break;
+      case APPLE_REMOTE_CENTER:
+        Serial.println("[center]");
+        break;
+      case APPLE_REMOTE_REPEAT:
+        Serial.println("[repeat]");
+        break;
+      default:
+        Serial.println("[?]");
+    }
+  }
 }
 ```
 
