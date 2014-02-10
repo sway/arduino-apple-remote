@@ -21,19 +21,59 @@
   WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-// The following include depends on https://github.com/xiam/arduino-irdebug
+// Depends on https://github.com/xiam/arduino-irdebug
 #include <apple-remote.h>
 
-void setup()
-{
+#define SIGNAL_MAX_LENGTH 70
+
+void setup() {
   Serial.begin(9600);
-  Serial.println("This library makes a IR LED emit codes used by the Apple Remote.");
+  Serial.println("Apple Remote for Arduino.");
 }
 
-void loop()
-{
+void example_receive_signals() {
+  unsigned int signal[SIGNAL_MAX_LENGTH];
+  bool captured;
+  int code;
 
-  // This example uses an Apple TV receiver.
+  captured = irdebug_capture_signal(signal, SIGNAL_MAX_LENGTH);
+
+  if (captured) {
+    irdebug_print_signal(signal);
+    code = apple_remote_match(signal);
+
+    switch (code) {
+      case APPLE_REMOTE_MENU:
+        Serial.println("[menu]");
+        break;
+      case APPLE_REMOTE_RIGHT:
+        Serial.println("[right]");
+        break;
+      case APPLE_REMOTE_LEFT:
+        Serial.println("[left]");
+        break;
+      case APPLE_REMOTE_UP:
+        Serial.println("[up]");
+        break;
+      case APPLE_REMOTE_DOWN:
+        Serial.println("[down]");
+        break;
+      case APPLE_REMOTE_PLAY:
+        Serial.println("[play]");
+        break;
+      case APPLE_REMOTE_CENTER:
+        Serial.println("[center]");
+        break;
+      case APPLE_REMOTE_REPEAT:
+        Serial.println("[repeat]");
+        break;
+      default:
+        Serial.println("[?]");
+    }
+  }
+}
+
+void example_emit_signals() {
 
   // Getting to the main menu.
   Serial.println("Sending signal: menu.");
@@ -111,4 +151,12 @@ void loop()
   Serial.println("Waiting a minute.");
 
   delay(10000);
+}
+
+void loop() {
+  // This example receives and decodes Apple Remote signals.
+  example_receive_signals();
+
+  // This example emits Apple Remote codes to an AppleTV receiver.
+  //example_emit_signals();
 }
