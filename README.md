@@ -36,7 +36,7 @@ Receiving signals
 void setup()
 {
   Serial.begin(9600);
-  Serial.println("Point your IR led to an AppleTV.");
+  Serial.println("Point your Apple Controller to your IR sensor.");
 }
 
 void loop()
