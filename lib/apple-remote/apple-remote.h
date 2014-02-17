@@ -55,7 +55,9 @@
 
 #define APPLE_CUSTOM_CODE       APPLE_REMOTE_HE, APPLE_REMOTE_HE, APPLE_REMOTE_H7, APPLE_REMOTE_H8  // 0xEE, 0X87
 
-#define APPLE_REMOTE_MODEL      0xcf
+// You can use 0xc7 or 0xcf as APPLE_REMOTE_MODEL values to switch between
+// control models.
+#define APPLE_REMOTE_MODEL      0xc7
 
 #if APPLE_REMOTE_MODEL == 0xcf
   #define APPLE_REMOTE_ID               APPLE_REMOTE_HF, APPLE_REMOTE_HC          // 0xCF
@@ -66,8 +68,8 @@
   #define APPLE_REMOTE_BUTTON_DOWN      APPLE_REMOTE_HD, APPLE_REMOTE_H0          // 0x0D
   #define APPLE_REMOTE_BUTTON_PLAY      APPLE_REMOTE_HE, APPLE_REMOTE_H5          // 0x5E
   #define APPLE_REMOTE_BUTTON_CENTER    APPLE_REMOTE_HD, APPLE_REMOTE_H5          // 0x5D
-#elif APPLE_REMOTE_MODEL == 0xa7
-  #define APPLE_REMOTE_ID               APPLE_REMOTE_H7, APPLE_REMOTE_HA          // 0xA7
+#elif APPLE_REMOTE_MODEL == 0xc7
+  #define APPLE_REMOTE_ID               APPLE_REMOTE_H7, APPLE_REMOTE_HC          // 0xC7
   #define APPLE_REMOTE_BUTTON_MENU      APPLE_REMOTE_H3, APPLE_REMOTE_H0          // 0x03
   #define APPLE_REMOTE_BUTTON_RIGHT     APPLE_REMOTE_H6, APPLE_REMOTE_H0          // 0x06
   #define APPLE_REMOTE_BUTTON_LEFT      APPLE_REMOTE_H9, APPLE_REMOTE_H0          // 0x09

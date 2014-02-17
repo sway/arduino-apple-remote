@@ -1,9 +1,11 @@
 # Apple Remote library for Arduino
 
-This library uses a IR led to emit codes that mimic those sent by the [Apple
-Remote][1].
+This library can work with an IR Receiver and an IR LED to decode and emit
+[Apple Remote][1] IR codes.
 
-The IR led is expected to be wired to your Arduino's pin #3.
+The IR led is expected to be wired to the Arduino's pin #3 and GND.
+
+The IR receiver is expected to be wired to the Arduino's pin #2, GND and 5V.
 
 ## Code example
 
@@ -82,6 +84,33 @@ void loop()
   }
 }
 ```
+
+If the above code does does not work or you see things like:
+
+```
+[?]
+[?]
+[?]
+[?]
+```
+
+instead of button reads, you should try changing the expected Apple Remote ID:
+
+## Changing the Apple Remote's model
+
+This library covers two Apple Remote models, these two models have been tested
+with the aluminium controller only.
+
+If you need to switch between controller models a small hack is required. Open
+`lib/apple-remote/apple-remote.h` with your favorite text editor and locate the
+`APPLE_REMOTE_MODEL` constant, the line should look like this:
+
+```
+#define APPLE_REMOTE_MODEL 0xc7
+```
+
+change the `0xc7` number for `0xcf`. Clean the project, recompile and try
+again.
 
 ## How to install
 
